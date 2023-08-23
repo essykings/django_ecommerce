@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% block content%}
+
+<div class="container mt-4"> 
+  <div class="row">
+     <h4 class="text-center">Order  Summary</h4>
+  </div>
+</div>
+<div class="container">
+  {% for order_item in order_items_list %}
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <!-- Order item content goes here -->
+            <img src="{{ order_item.product.image.url }}" alt="Winter Landscape" width="60" class="img-fluid rounded" style="max-width: 100%;" />
+            <h5 class="card-title">{{ order_item.product.name }}</h5>
+            <p class="card-text">Order No. #{{ order_item.order.id }}</p>
+            <p class="card-text">Qty : {{ order_item.quantity }}</p>
+            <p class="card-text">${{ order_item.subtotal }}</p> 
+             <p class="card-text">Updated on: {{ order_item.order.date_updated }}</p> 
+             <p class="card-text">Status: {{ order_item.order.status }}</p> 
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock%}

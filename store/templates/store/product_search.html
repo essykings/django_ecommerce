@@ -1,0 +1,32 @@
+<!-- product_search.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+{% for product in products %}
+<div class="col-sm-4">
+   <div class="card">
+      <div class="card-body">
+         <a href="{% url 'product-detail' product.id%}">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-100 rounded "/>
+         </a>
+         <p class="card-text">${{product.price}}</p>
+      </div>
+   </div>
+</div>
+{% empty %}
+
+<div class="container mt-5 text-center">
+   <div class="row">
+      <div class="col-md-6 offset-md-3">
+         <div class="card">
+            <div class="card-body">
+               <p class="card-text">No products matching your Query </p>
+               <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endfor %}
+{% endblock %}

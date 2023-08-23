@@ -1,0 +1,48 @@
+<!-- product_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+   <div class="row">
+      <div class="col-md-4">
+         <img src="{{ product.image.url }}" alt="Winter Landscape" class="w-100 rounded "/>
+      </div>
+      <div class="col-md-8">
+         <h3>{{ product.name }}</h3>
+         <strong>
+            <p>$ {{ product.price }}</p>
+         </strong>
+         {% if cart %}
+         <div class ="row mt-5">
+            <div class="col-sm-6">
+                <p>This product is already in the cart</p>
+                    <a href="{% url 'cart-list'%}" class="btn btn-warning btn-lg">Check Cart</a>
+            </div>
+         </div>
+         {% else %}
+         <form action="{% url 'cart-add' product.id %}" method="POST">
+            {% csrf_token%}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-warning btn-lg ">Add to Cart</button>
+           </form> 
+           
+           {% endif %}
+       </div>
+   </div>
+   
+</div>
+<div class="container mt-4">
+   <div class="row">
+      
+      <p>{{ product.description }}</p>
+      <form action="{% url 'add-wish' %}" method="post">
+         {% csrf_token %}
+         <input type="text" name="id" value="{{ product.id }}" class="form-control d-none">
+         <button class="btn btn-danger" type="submit">
+           <i class="fas fa-heart"></i>
+           
+         </button>
+       </form>
+   
+   </div>
+</div>
+{% endblock %}

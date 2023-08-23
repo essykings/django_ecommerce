@@ -1,0 +1,21 @@
+<!-- product_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ category.name }}</h1>
+<div class="row">
+{% for product in products %}
+<div class="col-sm-4">
+   <div class="card">
+      <div class="card-body">
+         <a href="{% url 'product-detail' product.id%}">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-100 rounded "/>
+         </a>
+         <p class="card-text">${{product.price}}</p>
+      </div>
+   </div>
+</div>
+{% empty %}
+<li>No products found.</li>
+{% endfor %}
+{% endblock %}

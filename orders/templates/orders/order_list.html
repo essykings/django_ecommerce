@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+{% block content%}
+{% if orders %}
+
+<div class="container mt-4"> 
+  <div class="row">
+     <h4 class="text-center">Order History</h4>
+  </div>
+</div>
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Order No.</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Paid</th>
+                <th>Details </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+                <tr>
+                  <td># {{ order.id }}</td>
+                  <td>{{ order.date_created }}</td>
+                  <td>{{ order.status }}</td>
+                  <td>$ {{ order.amount}}</td>
+                  <td>
+                    <a href="{% url 'order-detail' order.id %}">View Details</a>
+                  </td>
+  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="pagination">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+
+{% else%}
+<div class="container mt-5 text-center">
+  <div class="row">
+     <div class="col-md-6 offset-md-3">
+        <div class="card">
+           <div class="card-body">
+              <p class="card-text">No orders</p>
+              <a href="/" class="btn btn-primary">Continue Shopping</a>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+{% endif%}
+{% endblock%}
+
+

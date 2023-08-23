@@ -1,0 +1,77 @@
+{% extends 'base.html'%}
+{% block content%}
+{% if cart_items %}
+
+<div class="container mt-4"> 
+    <div class="row">
+       <h4 class="text-center">Cart Summary</h4>
+    </div>
+</div>
+
+<div class="container mt-4"> 
+    <div class="table-responsive">
+   <table class="table table-bordered">
+      <tbody>
+        <thead>
+            <tr>
+               <th></th>
+               <th>Product</th>
+               <th>Qty</th>
+               <th>Price</th>
+               <th>Subtotal</th>
+               
+            </tr>
+         </thead>
+         <tr>
+            {% for item in cart_items %}
+            <td>
+                <form action = "{% url 'remove-item'%}" method="post">
+                   {% csrf_token %}
+                   <input type="text" name="id" value="{{ item.product.id }}" class="form-control d-none">
+                   <button class="btn btn-danger"    type="submit">Remove</button>
+                </form>
+             </td>
+           
+            <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="max-height: 100px;"></td>
+            <td>{{ item.product.name }}</td>
+            <td>
+                <form action = "{% url 'update-item'%}" method="post">
+                   {% csrf_token %}
+                   <input type="text" name="id" value="{{ item.product.id }}" class="form-control d-none">
+                    <input type="number" name="quantity" value="{{ item.quantity }}" class="form-control mr-2" style="width: 80px;" min="1">
+                   <button type="submit">Update</button>
+                   </form>
+             </td>
+            <td>{{ item.product.price }}</td>
+            <td>{{ item.total_cost }}</td>
+         </tr>
+         {% endfor %}
+         <tr>
+            <td>Total:</td>
+            <td style=" background-color: grey;">${{ total_cost }}</td>
+         </tr>
+      </tbody>
+   </table>
+   <hr>
+   <div class ="row mt-5">
+      <div class="col-sm-6">
+         <a href="{% url 'checkout'%}" class="btn btn-warning">CHECKOUT (${{total_cost}})</a>
+      </div>
+   </div>
+</div>
+</div>
+{% else %}
+<div class="container mt-5 text-center">
+   <div class="row">
+      <div class="col-md-6 offset-md-3">
+         <div class="card">
+            <div class="card-body">
+               <p class="card-text">Your Cart is empty</p>
+               <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endif %}
+{% endblock%}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4"> 
+    <div class="row">
+       <h4 class="text-center">Saved Items</h4>
+    </div>
+  </div>
+<div class="row">
+   {% for item in wishlist %}
+<div class="col-sm-4">
+   <div class="card">
+      <div class="card-body">
+         <a href="{% url 'product-detail' item.product.id%}">
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-100 rounded "/>
+         </a>
+         <hr>
+         <h5 class="card-title">{{ item.product.name }}</h5>
+         <p class="card-text">${{item.product.price}}</p>
+      </div>
+   </div>
+</div>
+{% empty %}
+<li>No Items in Wishlist</li>
+{% endfor %}
+{% endblock %}
+
